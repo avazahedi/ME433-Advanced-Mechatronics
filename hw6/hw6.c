@@ -135,41 +135,6 @@ unsigned char generic_i2c_read(unsigned char write_address, unsigned char reg, u
     return recv&0b00000001; // checks that the last bit is a 1 (we don't care about the rest)
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-
-// blink the LEDs
-void blink(int iterations, int time_ms){
-	int i;
-	unsigned int t;
-	for (i=0; i< iterations; i++){
-		NU32DIP_GREEN = 0; // on
-		NU32DIP_YELLOW = 1; // off
-		t = _CP0_GET_COUNT(); // should really check for overflow here
-		// the core timer ticks at half the SYSCLK, so 24000000 times per second
-		// so each millisecond is 24000 ticks
-		// wait half in each delay
-		while(_CP0_GET_COUNT() < t + 12000*time_ms){}
-		
-		NU32DIP_GREEN = 1; // off
-		NU32DIP_YELLOW = 0; // on
-		t = _CP0_GET_COUNT(); // should really check for overflow here
-		while(_CP0_GET_COUNT() < t + 12000*time_ms){}
-	}
-}
-
-void blinkgreen(){
-    int i;
-    unsigned int t;
-    for (i=0; i<100; i++) {
-        NU32DIP_GREEN = 0;
-        t = _CP0_GET_COUNT();
-        while (_CP0_GET_COUNT() < t + 12000){}
-        NU32DIP_GREEN = 1;
-        t = _CP0_GET_COUNT();
-        while (_CP0_GET_COUNT() < t + 12000){}
-    }
-}
-
 void delay(int time_ms) {
     unsigned int t;
     t = _CP0_GET_COUNT();
