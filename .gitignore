@@ -12,7 +12,14 @@
 /hw5/me433_hw5.X/dist/
 /hw5/me433_hw5.X/nbproject/
 /hw5/me433_hw5.X/.generated_files/
+/hw5/nu32dip.c
+/hw5/nu32dip.h
+/hw5/NU32DIPbootloaded.ld
 /hw6/hw6.X/build/
 /hw6/hw6.X/dist/
 /hw6/hw6.X/.generated_files/
 /hw6/hw6.X/nbproject/
+/hw6/hw6_pseudo.c
+/hw6/nu32dip.c
+/hw6/nu32dip.h
+/hw6/NU32DIPbootloaded.ld
