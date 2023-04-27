@@ -28,21 +28,20 @@ int main() {
     
     while(1) {
         // blink the yellow LED at 20 Hz
-        // blink(10, 200); // blink green and yellow LEDs
 
-        // unsigned char r = read_gp0();
-        // if (r == 1) {
-        //     turn_on_gp7();
-        // }
-        // else {
-        //     turn_off_gp7();
-        // }
+        unsigned char r = read_gp0();
+        if (r == 1) {
+            turn_on_gp7();
+        }
+        else {
+            turn_off_gp7();
+        }
     
-        // blink the LED on GP7
-        turn_on_gp7();
-        delay(50);
-        turn_off_gp7();
-        delay(50);
+        // // blink the LED on GP7
+        // turn_on_gp7();
+        // delay(200);
+        // turn_off_gp7();
+        // delay(200);
     }
 }
 
@@ -68,7 +67,7 @@ void turn_off_gp7() {
     // send the address of the chip with a write bit
     unsigned char address = 0b01000000;
     i2c_master_send(address);
-    // send the register to change (OLAT) ?
+    // send the register to change (OLAT)
     unsigned char reg = 0x0A;
     i2c_master_send(reg);
     // send the value to put in that register
@@ -83,15 +82,23 @@ unsigned char read_gp0(){
     i2c_master_start();
     // send the address with the write bit
     unsigned char address = 0b01000000;
-
-    // send the register you want to read from
+    i2c_master_send(address);
+    // send the register you want to read from (GPIO)
+    unsigned char reg = 0x09;
+    i2c_master_send(reg);
     // send restart
     i2c_master_restart();
     // send the address with read bit
-    unsigned char a = i2c_master_recv(); // receive
+    unsigned char read_address = 0b01000001;
+    i2c_master_send(read_address);
+    // receive from the chip
+    unsigned char recv = i2c_master_recv(); // receive
     // send an ack bit (acknowledge bit)
+    i2c_master_ack(1);
     // send stop
-    return a&0b00000001; // checks that the last bit is a 1 (we don't care about the rest)
+    i2c_master_stop();
+
+    return recv&0b00000001; // checks that the last bit is a 1 (we don't care about the rest)
 }
 
 void generic_i2c_write(unsigned char address, unsigned char reg, unsigned char value) {
@@ -105,6 +112,27 @@ void generic_i2c_write(unsigned char address, unsigned char reg, unsigned char v
     i2c_master_send(value);
     // send stop bit
     i2c_master_stop();
+}
+
+unsigned char generic_i2c_read(unsigned char write_address, unsigned char reg, unsigned char read_address){
+    // send start
+    i2c_master_start();
+    // send the address with the write bit
+    i2c_master_send(write_address);
+    // send the register you want to read from
+    i2c_master_send(reg);
+    // send restart
+    i2c_master_restart();
+    // send the address with read bit
+    i2c_master_send(read_address);
+    // receive from the chip
+    unsigned char recv = i2c_master_recv(); // receive
+    // send an ack bit (acknowledge bit)
+    i2c_master_ack(1);
+    // send stop
+    i2c_master_stop();
+
+    return recv&0b00000001; // checks that the last bit is a 1 (we don't care about the rest)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
