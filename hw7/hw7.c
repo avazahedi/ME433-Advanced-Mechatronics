@@ -20,7 +20,7 @@ int main(void) {
 
 	// print whoami
     char m[100];
-    sprintf(m, "0x%X\r\n"); // print out hex value - should be 0x68
+    sprintf(m, "0x%X\r\n", who); // print out hex value - should be 0x68
     NU32DIP_WriteUART1(m);
 
 	// if whoami is not 0x68, stuck in loop with LEDs on
@@ -46,6 +46,7 @@ int main(void) {
         ax = conv_xXL(d);
         ay = conv_yXL(d);
         az = conv_zXL(d);
+//        az = get_zXL(d);
         gx = conv_xG(d);
         gy = conv_yG(d);
         gz = conv_zG(d);
