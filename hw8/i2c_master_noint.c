@@ -58,37 +58,3 @@ void i2c_master_stop(void) { // send a STOP:
         ;
     } // wait for STOP to complete
 }
-
-void generic_i2c_write(unsigned char address, unsigned char reg, unsigned char value) {
-    // send start bit
-    i2c_master_start();
-    // send the address of the chip
-    i2c_master_send(address);
-    // send the register name
-    i2c_master_send(reg);
-    // send the value to turn on GP7
-    i2c_master_send(value);
-    // send stop bit
-    i2c_master_stop();
-}
-
-unsigned char generic_i2c_read(unsigned char write_address, unsigned char reg, unsigned char read_address){
-    // send start
-    i2c_master_start();
-    // send the address with the write bit
-    i2c_master_send(write_address);
-    // send the register you want to read from
-    i2c_master_send(reg);
-    // send restart
-    i2c_master_restart();
-    // send the address with read bit
-    i2c_master_send(read_address);
-    // receive from the chip
-    unsigned char recv = i2c_master_recv(); // receive
-    // send an ack bit (acknowledge bit)
-    i2c_master_ack(1);
-    // send stop
-    i2c_master_stop();
-
-    return recv&0b00000001; // checks that the last bit is a 1 (we don't care about the rest)
-}

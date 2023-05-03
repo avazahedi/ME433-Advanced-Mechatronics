@@ -13,7 +13,4 @@ unsigned char i2c_master_recv(void); // receive a byte of data
 void i2c_master_ack(int val); // send an ACK (0) or NACK (1)
 void i2c_master_stop(void); // send a stop
 
-void generic_i2c_write(unsigned char address, unsigned char reg, unsigned char value);
-unsigned char generic_i2c_read(unsigned char write_address, unsigned char reg, unsigned char read_address);
-
 #endif
