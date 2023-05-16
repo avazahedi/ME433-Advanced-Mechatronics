@@ -12,7 +12,7 @@ int main(void) {
         for (int j=0; j < 8; j++) {
             wsColor colors[8];
             for (int i=0; i < 8; i++) {
-                colors[(i+j)%8] = HSBtoRGB(45*(i), 1, 0.2);
+                colors[(i+j)%8] = HSBtoRGB(45*(i), 1, 0.15);
             }
 
             ws2812b_setColor(colors, 8);
